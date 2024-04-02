@@ -1,0 +1,10 @@
+/* task_2/css/main.css */
+#count {
+    font-weight: bold;
+}
+
+button {
+    float: left;
+    margin-right: 10px;
+}
+
