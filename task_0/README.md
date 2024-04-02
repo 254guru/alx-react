@@ -7,6 +7,7 @@ Create and run Webpack using a basic installation.
 <li>Create a src directory with a index.js in it.</li>
 <li>The file should import jquery and add three different paragraphs to the page body: (refer to this <a href="https://www.npmjs.com/package/jquery#including-jquery">link</a> under the Babel section for importing jQuery)</li>
 </ul>
+
 		Holberton Dashboard
 
 		Dashboard data for the students
