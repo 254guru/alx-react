@@ -1,19 +1,27 @@
-// task_1/js/dashboard_main.js
+'use strict';
 import $ from 'jquery';
 import _ from 'lodash';
 
-let count = 0;
-
-function updateCounter() {
-    count++;
-    $('#count').text(count + ' clicks on the button');
-}
-
-$('#clickButton').on('click', _.debounce(updateCounter, 1000));
-
+// Append elements to the body
 $('body').append('<p>Holberton Dashboard</p>');
 $('body').append('<p>Dashboard data for the students</p>');
-$('body').append('<button id="clickButton">Click here to get started</button>');
+$('body').append('<button>Click here to get started</button>');
 $('body').append('<p id="count"></p>');
 $('body').append('<p>Copyright - Holberton School</p>');
 
+// Define updateCounter function
+const updateCounter = () => {
+  let count = 0; // Initialize count
+
+  // Event binding for button click
+  $('button').on('click', () => {
+    count++; // Increment count
+    $('#count').text(`${count} clicks on the button`); // Update count display
+  });
+};
+
+// Debounce the updateCounter function
+const debouncedUpdateCounter = _.debounce(updateCounter, 500);
+
+// Call the updateCounter function
+debouncedUpdateCounter();
