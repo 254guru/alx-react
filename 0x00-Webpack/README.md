@@ -1,0 +1,1 @@
+<p>This project is an introduction to Webpack, a popular module bundler for JavaScript applications. Webpack helps bundle your application's assets, such as JavaScript files, CSS files, and images, into a single bundle or multiple bundles to optimize loading time and performance.</p>
