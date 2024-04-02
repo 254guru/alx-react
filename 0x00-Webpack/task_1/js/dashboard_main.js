@@ -11,17 +11,17 @@ $('body').append('<p>Copyright - Holberton School</p>');
 
 // Define updateCounter function
 const updateCounter = () => {
-  let count = 0; // Initialize count
+  let count = $('#count').html() || 0; // Initialize count
 
   // Event binding for button click
   $('button').on('click', () => {
     count++; // Increment count
-    $('#count').text(`${count} clicks on the button`); // Update count display
+    $('#count').html(`${count} clicks on the button`); // Update count display
   });
 };
 
 // Debounce the updateCounter function
-const debouncedUpdateCounter = _.debounce(updateCounter, 500);
+ _.debounce(updateCounter, 500);
 
 // Call the updateCounter function
-debouncedUpdateCounter();
+updateCounter();
