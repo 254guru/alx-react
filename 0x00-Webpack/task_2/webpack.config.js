@@ -1,45 +1,38 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-
+const path = require("path");
 
 module.exports = {
     mode: 'production',
     entry: {
-	    main: path.resolve(__dirname, './js/dashboard_main.js'),
+        main: path.resolve(__dirname, './js/dashboard_main.js'),
     },
     output: {
+        path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'public')
-    }
+    },
+    performance: {
+        maxAssetSize: 1000000,
+        maxEntrypointSize: 1000000,
+    },
     module: {
         rules: [
             {
                 test: /\.css$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+                use: ["style-loader", "css-loader"],
             },
             {
-                test: /\.(png|jpe?g|gif|svg)$/i,
+                test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
                 type: 'asset/resource',
-            },
-        ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './index.html',
-        }),
-        new MiniCssExtractPlugin({
-            filename: 'main.css',
-        }),
-        new ImageMinimizerPlugin({
-            minimizerOptions: {
-                plugins: [
-                    ['imagemin-webp'],
-                    ['imagemin-svgo'],
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            bypassOnDebug: true,
+                            disable: true,
+                        },
+                    },
                 ],
             },
-        }),
-    ],
+        ]
+    }
 };
-

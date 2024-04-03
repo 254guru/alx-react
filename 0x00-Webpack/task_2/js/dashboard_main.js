@@ -1,8 +1,9 @@
-'use strict';
+import '../css/main.css';
 import $ from 'jquery';
 import _ from 'lodash';
 
 // Append elements to the body
+$('body').append("<div id='logo'> </div>");
 $('body').append('<p>Holberton Dashboard</p>');
 $('body').append('<p>Dashboard data for the students</p>');
 $('body').append('<button>Click here to get started</button>');
@@ -11,17 +12,20 @@ $('body').append('<p>Copyright - Holberton School</p>');
 
 // Define updateCounter function
 const updateCounter = () => {
-  let count = $('#count').html() || 0; // Initialize count
+  let count = parseInt($('#count').html()) || 0; // Initialize count
 
-  // Event binding for button click
-  $('button').on('click', () => {
-    count++; // Increment count
-    $('#count').html(`${count} clicks on the button`); // Update count display
-  });
+  // Increment count
+  count++;
+
+  // Update count display
+  $('#count').html(`${count} clicks on the button`);
 };
 
 // Debounce the updateCounter function
- _.debounce(updateCounter, 500);
+const debouncedUpdateCounter = _.debounce(updateCounter, 500);
+
+// Event binding for button click
+$('button').on('click', debouncedUpdateCounter);
 
 // Call the updateCounter function
 updateCounter();
