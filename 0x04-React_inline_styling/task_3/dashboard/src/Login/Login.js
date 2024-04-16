@@ -23,6 +23,14 @@ const styles = StyleSheet.create({
 		borderBottom: "4px solid #E0354B",
 		height: "45%",
 		fontFamily: "Arial, Helvetica, sans-serif",
+		"@media (max-width: 900px)": {
+			display: "flex",
+			flexDirection: "column",
+		},
+	},
+
+	input: {
+		margin: "10px",
 	},
 });
 
