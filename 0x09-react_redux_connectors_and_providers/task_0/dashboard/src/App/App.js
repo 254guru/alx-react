@@ -1,3 +1,4 @@
+import { AppContext, user } from "./AppContext";
 import React from 'react';
 import { connect } from 'react-redux'; // Import connect from Redux
 import { getLatestNotification } from '../utils/utils';
@@ -11,6 +12,13 @@ import Notifications from '../Notifications/Notifications';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import BodySection from '../BodySection/BodySection';
 import { isLoggedIn } from '../reducers/uiReducer'; // Import isLoggedIn selector
+
+// Export the mapStateToProps function
+export const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.get('isUserLoggedIn') // Assuming 'isUserLoggedIn' is the correct property name
+  };
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -114,6 +122,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial, Helvetica, sans-serif',
   },
 });
+
+App.defaultProps = {
+  isLoggedIn: false,
+  logOut: () => {
+    return;
+  },
+};
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool,

@@ -8,12 +8,23 @@ import Footer from "../Footer/Footer";
 import Notifications from "../Notifications/Notifications";
 import CourseList from "../CourseList/CourseList";
 import { StyleSheetTestUtils } from "aphrodite";
+import { mapStateToProps } from './App';
 
 beforeEach(() => {
   StyleSheetTestUtils.suppressStyleInjection();
 });
 afterEach(() => {
   StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+describe('mapStateToProps function', () => {
+  it('returns the right object when passing the state', () => {
+    const state = {
+      isUserLoggedIn: true // Assuming 'isUserLoggedIn' is the correct property name in your state
+    };
+    const props = mapStateToProps(state);
+    expect(props).toEqual({ isLoggedIn: true });
+  });
 });
 
 describe("App tests", () => {
