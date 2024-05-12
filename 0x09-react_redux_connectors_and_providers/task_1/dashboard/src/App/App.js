@@ -11,29 +11,10 @@ import CourseList from '../CourseList/CourseList';
 import Notifications from '../Notifications/Notifications';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import BodySection from '../BodySection/BodySection';
-import { isLoggedIn } from '../reducers/uiReducer'; // Import isLoggedIn selector
-
-// Export the mapStateToProps function
-export const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.get('isUserLoggedIn') // Assuming 'isUserLoggedIn' is the correct property name
-  };
-}
+import { isLoggedIn, isNotificationDrawerVisible } from '../reducers/uiReducer'; // Import isLoggedIn and isNotificationDrawerVisible selectors
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators'; // Import action creators
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { displayDrawer: false, user: user, logOut: this.logOut };
-
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    this.logIn = this.logIn.bind(this);
-    this.logOut = this.logOut.bind(this);
-    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-  }
-
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyPress);
   }
@@ -42,22 +23,14 @@ class App extends React.Component {
     document.removeEventListener('keydown', this.handleKeyPress);
   }
 
-  handleKeyPress(e) {
+  handleKeyPress = (e) => {
     if (e.ctrlKey && e.key === 'h') {
       alert('Logging you out');
       this.props.logOut(); // Update this.props.logOut()
     }
   }
 
-  handleDisplayDrawer() {
-    this.setState({ displayDrawer: true });
-  }
-
-  handleHideDrawer() {
-    this.setState({ displayDrawer: false });
-  }
-
-  logIn(email, password) {
+  logIn = (email, password) => {
     this.setState({
       user: {
         email,
@@ -67,13 +40,13 @@ class App extends React.Component {
     });
   }
 
-  logOut() {
+  logOut = () => {
     this.setState({
       user: user,
     });
   }
 
-  markNotificationAsRead(id) {
+  markNotificationAsRead = (id) => {
     const newList = this.state.listNotifications.filter((notification) => notification.id !== id);
     this.setState({ listNotifications: newList });
   }
@@ -86,9 +59,9 @@ class App extends React.Component {
             <Notifications
               markNotificationAsRead={this.markNotificationAsRead}
               listNotifications={this.listNotifications}
-              displayDrawer={this.state.displayDrawer}
-              handleDisplayDrawer={this.handleDisplayDrawer}
-              handleHideDrawer={this.handleHideDrawer}
+              displayDrawer={this.props.displayDrawer} // Use this.props.displayDrawer
+              handleDisplayDrawer={this.props.displayNotificationDrawer} // Use action creator from props
+              handleHideDrawer={this.props.hideNotificationDrawer} // Use action creator from props
             />
             <Header />
           </div>
@@ -125,6 +98,9 @@ const styles = StyleSheet.create({
 
 App.defaultProps = {
   isLoggedIn: false,
+  displayDrawer: false, // Add default prop for displayDrawer
+  displayNotificationDrawer: () => {}, // Add default prop for displayNotificationDrawer
+  hideNotificationDrawer: () => {}, // Add default prop for hideNotificationDrawer
   logOut: () => {
     return;
   },
@@ -132,12 +108,16 @@ App.defaultProps = {
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool,
+  displayDrawer: PropTypes.bool,
+  displayNotificationDrawer: PropTypes.func.isRequired,
+  hideNotificationDrawer: PropTypes.func.isRequired,
   logOut: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   isLoggedIn: isLoggedIn(state), // Connect the uiReducer and the isLoggedIn property
+  displayDrawer: isNotificationDrawerVisible(state), // Connect the uiReducer and the isNotificationDrawerVisible property
 });
 
-export default connect(mapStateToProps)(App); // Connect mapStateToProps to the component
+export default connect(mapStateToProps, { displayNotificationDrawer, hideNotificationDrawer })(App); // Connect mapStateToProps and action creators to the component
 
